@@ -394,6 +394,18 @@ export const en = {
     challenge: 'Challenge them',
     not_found: 'This player hasn’t used their items yet.',
   },
+  notes: {
+    title: 'Notifications',
+    open: (n: number) => (n ? `Notifications (${n})` : 'Notifications'),
+    empty: 'Nothing new',
+    request: (name: string) => `${name} wants to be your friend`,
+    invite: (name: string, coop: boolean) => (coop ? `${name} invites you to play coop` : `${name} invites you to a PvP match`),
+    accept: 'Accept',
+    decline: 'Decline',
+    join: 'Join',
+    read: 'Read',
+    unread: (n: number) => `${n} new`,
+  },
   toasts: {
     joined_win: (name: string) => `${name} takes your game on: you win!`,
     joined_lose: (name: string) => `${name} takes your game on and wins.`,

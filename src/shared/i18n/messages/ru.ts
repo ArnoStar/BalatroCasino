@@ -397,6 +397,18 @@ export const ru: Messages = {
     challenge: 'Бросить вызов',
     not_found: 'Этот игрок ещё не пользовался предметами.',
   },
+  notes: {
+    title: 'Уведомления',
+    open: (n) => (n ? `Уведомления (${n})` : 'Уведомления'),
+    empty: 'Ничего нового',
+    request: (name) => `${name} хочет добавить вас в друзья`,
+    invite: (name, coop) => (coop ? `${name} зовёт вас играть вместе` : `${name} зовёт вас в PvP-матч`),
+    accept: 'Принять',
+    decline: 'Отклонить',
+    join: 'Войти',
+    read: 'Читать',
+    unread: (n) => `${n} новых`,
+  },
   toasts: {
     joined_win: (name) => `${name} принимает вашу игру: вы выигрываете!`,
     joined_lose: (name) => `${name} принимает вашу игру и выигрывает.`,

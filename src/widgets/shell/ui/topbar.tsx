@@ -4,6 +4,7 @@ import { GAME_URL, portal } from '@/shared/config';
 import { LANGUAGES, useI18n, type Lang } from '@/shared/i18n';
 import { sound, useMuted } from '@/shared/lib';
 import { Avatar, Icon, type IconName } from '@/shared/ui';
+import { Notifications } from './notifications';
 
 type NavKey = 'lobby' | 'coinflip' | 'dice' | 'jackpot' | 'leaderboard' | 'history' | 'fair';
 /** shown as icons only on narrower screens */
@@ -138,6 +139,7 @@ export function TopBar() {
         <Nav className="nav--top" />
         <div className="topbar__end">
           <LiveDot />
+          <Notifications />
           <Account />
           <SoundToggle />
           <LanguageSelect />

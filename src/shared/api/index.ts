@@ -24,4 +24,7 @@ export {
 export { read_live, type LiveEvent } from './live';
 export { ProblemError, read_json, type Problem } from './problem';
 export { access_token, read_session, refresh_session, SESSION_KEY, type Session } from './session';
-export { avatar_url, avatar_versions, social_api, type Friend } from './social';
+export {
+  avatar_url, avatar_versions, read_social_events, social_api, type Conversation, type Friend, type FriendRequest, type Inbox,
+  type MatchInvite, type SocialEvent,
+} from './social';
