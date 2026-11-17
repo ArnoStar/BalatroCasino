@@ -1,0 +1,28 @@
+/* With reduced motion everything stands still: no light moving, no sign
+ * flickering, no coin tossed nor wheel spun (results show at once: the
+ * components wait 0 ms), no confetti. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .confetti,
+  .ticker__track--run + * {
+    display: none;
+  }
+
+  .ticker__track--run {
+    animation: none !important;
+  }
+
+  .ticker__view {
+    overflow-x: auto;
+  }
+}

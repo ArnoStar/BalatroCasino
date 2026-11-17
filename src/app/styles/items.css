@@ -1,0 +1,294 @@
+/* Items: the game's sprites with their edition's light, rows of them in a
+ * game, and the picker the player stakes them from. */
+.item-art {
+  position: relative;
+  flex: none;
+}
+
+.item-art__layer {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.item-art--missing {
+  display: grid;
+  place-items: center;
+  padding: 0.3rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  text-align: center;
+  background: var(--surface-3);
+}
+
+.item-art--foil .item-art__base {
+  filter: saturate(0.55) brightness(1.05) hue-rotate(-10deg);
+}
+
+.item-art--foil .item-art__edition {
+  background: linear-gradient(115deg, transparent 25%, rgba(140, 200, 255, 0.75) 42%, rgba(255, 255, 255, 0.9) 50%, rgba(140, 200, 255, 0.75) 58%, transparent 75%) 0 0 / 300% 100% no-repeat;
+  mix-blend-mode: screen;
+  animation: item-sheen 3.2s linear infinite;
+}
+
+.item-art--holographic .item-art__edition {
+  background: repeating-linear-gradient(125deg, #ff5f6d 0%, #ffc371 8%, #6bffb0 16%, #5fb8ff 24%, #c86bff 32%, #ff5f6d 40%) 0 0 / 300% 300%;
+  mix-blend-mode: color-dodge;
+  opacity: 0.55;
+  animation: item-sheen 5s linear infinite;
+}
+
+.item-art--polychrome .item-art__base,
+.item-art--polychrome .item-art__soul {
+  filter: saturate(1.35);
+}
+
+.item-art--polychrome .item-art__edition {
+  background: linear-gradient(120deg, #ff4f6d, #ffd84f, #4fff9a, #4fc3ff, #b44fff, #ff4f6d, #ffd84f) 0 0 / 300% 300%;
+  mix-blend-mode: hue;
+  opacity: 0.7;
+  animation: item-sheen 6s linear infinite;
+}
+
+.item-art--negative .item-art__base,
+.item-art--negative .item-art__soul {
+  filter: invert(1) hue-rotate(180deg) saturate(1.3) brightness(0.9);
+}
+
+.item-art--negative .item-art__edition {
+  background: rgba(70, 20, 110, 0.45);
+  mix-blend-mode: multiply;
+}
+
+.item-art--negative {
+  filter: drop-shadow(0 0 8px rgba(150, 90, 255, 0.6));
+}
+
+.item-art__soul {
+  animation: soul-float 4s ease-in-out infinite;
+}
+
+@keyframes item-sheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes soul-float {
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* a row of items in a game */
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.thumbs--tight {
+  gap: 0;
+}
+
+.thumbs--tight .thumb + .thumb {
+  margin-left: -0.9rem;
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  border-radius: 6px;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.55));
+  transition: transform 0.3s var(--ease-spring), z-index 0s;
+  animation: deal 0.45s calc(var(--i) * 45ms) var(--ease-out) both;
+}
+
+.thumb:hover {
+  z-index: 2;
+  transform: translateY(-6px) rotate(-4deg) scale(1.08);
+}
+
+.thumb--r3 {
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 6px rgba(255, 92, 108, 0.45));
+}
+
+.thumb--r4 {
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 8px rgba(192, 123, 255, 0.7));
+}
+
+@keyframes deal {
+  from {
+    opacity: 0;
+    transform: translateY(10px) rotate(6deg);
+  }
+}
+
+.thumbs__more {
+  align-self: center;
+  margin-left: 0.4rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- the picker */
+.picker {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.picker__none {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-weight: 650;
+}
+
+.picker__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.picker__search {
+  display: flex;
+  flex: 1 1 11rem;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.4rem;
+  padding: 0 0.75rem;
+  border-radius: 12px;
+  color: var(--muted);
+  background: rgba(6, 5, 12, 0.6);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+
+.picker__search:focus-within {
+  box-shadow: inset 0 0 0 1px rgba(255, 205, 100, 0.7), 0 0 0 3px rgba(255, 197, 61, 0.15);
+}
+
+.picker__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+}
+
+.picker__search input:focus {
+  outline: none;
+}
+
+.picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr));
+  gap: 0.6rem;
+  max-height: min(52vh, 34rem);
+  margin: 0;
+  padding: 0.2rem 0.3rem 0.4rem 0.1rem;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.pick {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.55rem 0.35rem 0.5rem;
+  border: 0;
+  border-radius: 14px;
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.2s, background 0.2s;
+  animation: deal 0.4s calc(var(--i) * 18ms) var(--ease-out) both;
+}
+
+.pick:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 1px var(--line-3);
+}
+
+.pick:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.pick--r2 {
+  box-shadow: inset 0 0 0 1px rgba(51, 211, 155, 0.2);
+}
+
+.pick--r3 {
+  box-shadow: inset 0 0 0 1px rgba(255, 92, 108, 0.32);
+  background: radial-gradient(90% 60% at 50% 0%, rgba(255, 92, 108, 0.12), transparent 70%), rgba(255, 255, 255, 0.02);
+}
+
+.pick--r4 {
+  box-shadow: inset 0 0 0 1px rgba(192, 123, 255, 0.45);
+  background: radial-gradient(90% 60% at 50% 0%, rgba(192, 123, 255, 0.18), transparent 70%), rgba(255, 255, 255, 0.02);
+}
+
+.pick--on {
+  background: radial-gradient(100% 70% at 50% 0%, rgba(255, 197, 61, 0.24), transparent 70%), rgba(255, 197, 61, 0.06);
+  box-shadow: inset 0 0 0 2px var(--gold), 0 10px 26px -12px rgba(255, 180, 40, 0.9);
+  transform: translateY(-2px);
+}
+
+.pick__order {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  color: #1f1304;
+  background: var(--grad-gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  animation: pop 0.3s var(--ease-spring) both;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.3);
+  }
+}
+
+.pick__art {
+  display: grid;
+  place-items: center;
+  min-height: 4.6rem;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.55));
+}
+
+.pick__name {
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 100%;
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.picker__held {
+  margin: 0;
+  font-size: 0.82rem;
+}
