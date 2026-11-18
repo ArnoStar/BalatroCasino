@@ -53,6 +53,8 @@ export const en = {
     language: 'Language',
     ready: 'Ready to stake',
     ready_hint: 'The value of your items out of their trade hold',
+    coins: 'Coins',
+    coins_hint: 'Your coins: boosters in the shop, items on the market (on the site)',
     portal: 'Balatro',
     portal_hint: 'Back to the portal',
     play: 'Play',
@@ -66,7 +68,7 @@ export const en = {
   },
   gate: {
     signed_out_title: 'Sign in to play',
-    signed_out_text: 'The casino is for players with an account: you stake the items you found by playing against other players’.',
+    signed_out_text: 'The casino is for players with an account: you stake your items against other players’.',
     sign_in: 'Sign in',
     register: 'Create an account',
     locked_title: 'The casino opens after your first win',
@@ -83,12 +85,14 @@ export const en = {
   items: {
     rarity: ['', 'Common', 'Uncommon', 'Rare', 'Legendary'],
     edition: { base: 'Base', foil: 'Foil', holographic: 'Holographic', polychrome: 'Polychrome', negative: 'Negative' },
+    kinds: { joker: 'Jokers', tarot: 'Tarot', planet: 'Planets', spectral: 'Spectral', card: 'Playing cards' },
+    card_name: (rank: string, suit: string) => `${rank} of ${suit}`,
   },
   status: { open: 'Open', done: 'Drawn', cancelled: 'Taken back' },
   lobby: {
     eyebrow: 'Player against player · no house',
     title: 'The back room',
-    lead: 'Stake your jokers and tags against other players’. The winner takes every item of the game; the casino keeps nothing, and every draw can be checked in your browser.',
+    lead: 'Stake your cards against other players’. The winner takes every item of the game; the casino keeps nothing, and every draw can be checked in your browser.',
     pot_title: 'The jackpot',
     in_pot: 'In the pot',
     drawn_in: 'Drawn in',
@@ -112,7 +116,7 @@ export const en = {
     just_drawn: 'Just drawn',
     how_title: 'How it works',
     how: [
-      'You stake items you found by playing: each is worth its odds (an item found 1 in 4,520 drops is worth 4,520).',
+      'You stake your items: each is worth its odds in coins (a card that comes 1 in 4,520 times is worth 4,520 coins).',
       'Your chance is your share of the pot. The winner takes every item of the game.',
       'Each draw is computed from a secret the casino commits to before you play, and your own seed: check any of them.',
     ],
@@ -217,8 +221,6 @@ export const en = {
     sort_newest: 'Newest',
     sort_rarity: 'Rarest',
     all: 'All',
-    jokers: 'Jokers',
-    tags: 'Tags',
     none: 'You have no item to stake right now.',
     held: (n: number) =>
       p(n, {

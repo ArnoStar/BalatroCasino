@@ -23,7 +23,8 @@
   background: var(--surface-3);
 }
 
-.item-art--foil .item-art__base {
+.item-art--foil .item-art__base,
+.item-art--foil .item-art__front {
   filter: saturate(0.55) brightness(1.05) hue-rotate(-10deg);
 }
 
@@ -41,6 +42,7 @@
 }
 
 .item-art--polychrome .item-art__base,
+.item-art--polychrome .item-art__front,
 .item-art--polychrome .item-art__soul {
   filter: saturate(1.35);
 }
@@ -53,6 +55,7 @@
 }
 
 .item-art--negative .item-art__base,
+.item-art--negative .item-art__front,
 .item-art--negative .item-art__soul {
   filter: invert(1) hue-rotate(180deg) saturate(1.3) brightness(0.9);
 }

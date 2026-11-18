@@ -1,8 +1,9 @@
 # BalatroCasino
 
-The casino of Balatro in the browser: players stake the jokers and tags they
-found by playing ([BalatroItemService](../BalatroItemService)) against each
-other's. **Player against player**: the casino has no items of its own, takes
+The casino of Balatro in the browser: players stake their collectible cards
+(jokers, tarot, planet and spectral cards, playing cards:
+[BalatroItemService](../BalatroItemService)) against each other's, each worth
+its value in coins (the same coins their runs earn, shown in the top bar). **Player against player**: the casino has no items of its own, takes
 nothing, and every draw can be checked in the browser.
 
 - **Coinflip**: Chips or Mult. Stake items on a side; another player matches
