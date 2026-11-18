@@ -6,6 +6,7 @@
 import type { CSSProperties } from 'react';
 import type { Item, SpriteCell } from '@/shared/api';
 import { GAME_URL } from '@/shared/config';
+import { wear_image } from '../model/wear';
 
 const TEXTURES = `${GAME_URL}/resources/textures/2x`;
 type Atlas = { file: string; px: number; py: number; cols: number; rows: number };
@@ -43,7 +44,7 @@ function Layer({ sprite, scale, className }: { sprite: SpriteCell | null | undef
   return <div className={`item-art__layer ${className}`} style={cell(atlas, sprite.pos.x, sprite.pos.y, scale)} />;
 }
 
-/** the item's picture: `scale` 1 is the game's 1x size (71 x 95) */
+/** the item's picture: `scale` 1 is the game's 1x size (71 x 95); its wear (from its condition) drawn over it */
 export function ItemArt({ item, scale = 1 }: { item: Item; scale?: number }) {
   const sprite = item.sprite;
   const atlas = sprite ? ATLASES[sprite.atlas] : undefined;
@@ -57,14 +58,24 @@ export function ItemArt({ item, scale = 1 }: { item: Item; scale?: number }) {
   const { x, y } = sprite.pos;
   const soul = sprite.soul_pos;
   const sticker = item.stake && item.kind === 'joker' ? STAKE_STICKERS[item.stake] : undefined;
+  const wear = typeof item.condition === 'number' ? 1 - item.condition : 0;
+  const grime = typeof item.condition === 'number' ? wear_image(item.id, wear) : '';
+  const crisp = item.condition >= 0.8 ? (item.condition >= 0.95 ? ' item-art--mint' : ' item-art--crisp') : '';
   return (
-    <div className={`item-art item-art--${item.edition} item-art--${item.kind}`} style={{ width: atlas.px * scale, height: atlas.py * scale }}>
-      <div className="item-art__layer item-art__base" style={cell(atlas, x, y, scale)} />
-      <Layer sprite={sprite.front} scale={scale} className="item-art__front" />
-      {item.edition !== 'base' ? <div className="item-art__layer item-art__edition" style={cell(atlas, x, y, scale, false)} /> : null}
-      <Layer sprite={sprite.seal} scale={scale} className="item-art__seal" />
-      {soul ? <div className="item-art__layer item-art__soul" style={cell(atlas, soul.x, soul.y, scale)} /> : null}
-      <Layer sprite={sprite.overlay} scale={scale} className="item-art__soul" />
+    <div
+      className={`item-art item-art--${item.edition} item-art--${item.kind}${crisp}`}
+      style={{ width: atlas.px * scale, height: atlas.py * scale, '--wear': wear } as CSSProperties}
+    >
+      <div className="item-art__card">
+        <div className="item-art__layer item-art__base" style={cell(atlas, x, y, scale)} />
+        <Layer sprite={sprite.front} scale={scale} className="item-art__front" />
+        {item.edition !== 'base' ? <div className="item-art__layer item-art__edition" style={cell(atlas, x, y, scale, false)} /> : null}
+        <Layer sprite={sprite.seal} scale={scale} className="item-art__seal" />
+        {soul ? <div className="item-art__layer item-art__soul" style={cell(atlas, soul.x, soul.y, scale)} /> : null}
+        <Layer sprite={sprite.overlay} scale={scale} className="item-art__soul" />
+      </div>
+      {grime ? <div className="item-art__layer item-art__wear" style={{ ...cell(atlas, x, y, scale, false), backgroundImage: grime }} /> : null}
+      {crisp ? <div className="item-art__layer item-art__gloss" style={cell(atlas, x, y, scale, false)} /> : null}
       {sticker ? <div className="item-art__layer item-art__sticker" style={cell(STICKERS, sticker[0], sticker[1], scale)} /> : null}
     </div>
   );

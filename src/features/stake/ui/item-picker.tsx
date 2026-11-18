@@ -38,9 +38,9 @@ export function ItemPicker({ items, held, next_free = null, picked, onChange, ma
     const query = q.trim().toLowerCase();
     const list = items.filter((i) => (kind === 'all' || i.kind === kind) && (!query || name(i).toLowerCase().includes(query) || i.name.toLowerCase().includes(query)));
     const by: Record<Sort, (a: Item, b: Item) => number> = {
-      value: (a, b) => b.odds - a.odds,
+      value: (a, b) => b.value - a.value,
       newest: (a, b) => b.acquired_at.localeCompare(a.acquired_at),
-      rarity: (a, b) => b.rarity - a.rarity || b.odds - a.odds,
+      rarity: (a, b) => b.rarity - a.rarity || b.value - a.value,
     };
     return [...list].sort((a, b) => by[sort](a, b) || a.id.localeCompare(b.id));
   }, [items, kind, q, sort, name]);
@@ -100,7 +100,7 @@ export function ItemPicker({ items, held, next_free = null, picked, onChange, ma
                   <ItemArt item={it} scale={0.78} />
                 </span>
                 <span className="pick__name">{name(it)}</span>
-                <Value value={it.odds} size="sm" compact />
+                <Value value={it.value} size="sm" compact />
               </button>
             </li>
           );

@@ -36,7 +36,7 @@ export function StakeDialog({ mode, onClose, onDone }: { mode: StakeMode; onClos
   const max = rules?.max_items ?? 10;
   const margin = rules?.coinflip_margin ?? 10;
   const by_id = new Map(casino.stakable.map((i) => [i.id, i]));
-  const value = picked.reduce((sum, id) => sum + (by_id.get(id)?.odds ?? 0), 0);
+  const value = picked.reduce((sum, id) => sum + (by_id.get(id)?.value ?? 0), 0);
   const held = casino.items.length - casino.stakable.length;
   // when the first item in its trade hold is free (staked ones come back with their game)
   const next_free = casino.items.filter((i) => !i.tradable && !i.staked).map((i) => i.tradable_at).sort()[0] ?? null;
@@ -60,7 +60,7 @@ export function StakeDialog({ mode, onClose, onDone }: { mode: StakeMode; onClos
 
   function auto_fill() {
     if (!need) return;
-    const found = fill(casino.stakable.map((i) => ({ id: i.id, value: i.odds })), need[0], need[1], max);
+    const found = fill(casino.stakable.map((i) => ({ id: i.id, value: i.value })), need[0], need[1], max);
     setNoFit(!found);
     if (found) {
       setPicked(found);

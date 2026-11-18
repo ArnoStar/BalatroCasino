@@ -86,6 +86,10 @@ export const en = {
     rarity: ['', 'Common', 'Uncommon', 'Rare', 'Legendary'],
     edition: { base: 'Base', foil: 'Foil', holographic: 'Holographic', polychrome: 'Polychrome', negative: 'Negative' },
     kinds: { joker: 'Jokers', tarot: 'Tarot', planet: 'Planets', spectral: 'Spectral', card: 'Playing cards' },
+    grade: {
+      ruined: 'Ruined', battered: 'Battered', worn: 'Worn', played: 'Played', fine: 'Fine', excellent: 'Excellent', mint: 'Mint',
+      pristine: 'Pristine',
+    } as Record<string, string>,
     card_name: (rank: string, suit: string) => `${rank} of ${suit}`,
   },
   status: { open: 'Open', done: 'Drawn', cancelled: 'Taken back' },
@@ -116,7 +120,7 @@ export const en = {
     just_drawn: 'Just drawn',
     how_title: 'How it works',
     how: [
-      'You stake your items: each is worth its odds in coins (a card that comes 1 in 4,520 times is worth 4,520 coins).',
+      'You stake your items: each is worth its value in coins (its card, its edition and upgrades, times its condition).',
       'Your chance is your share of the pot. The winner takes every item of the game.',
       'Each draw is computed from a secret the casino commits to before you play, and your own seed: check any of them.',
     ],
