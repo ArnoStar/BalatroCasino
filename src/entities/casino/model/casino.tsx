@@ -234,11 +234,11 @@ export function CasinoProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<CasinoValue>(() => {
-    const stakable = state.items.filter((i) => i.tradable && i.odds > 0);
+    const stakable = state.items.filter((i) => i.tradable && i.value > 0);
     return {
       ...state,
       stakable,
-      ready_value: stakable.reduce((sum, i) => sum + i.odds, 0),
+      ready_value: stakable.reduce((sum, i) => sum + i.value, 0),
       reload: () => void load_me(),
       reload_items: () => void load_items(),
       apply: emit,

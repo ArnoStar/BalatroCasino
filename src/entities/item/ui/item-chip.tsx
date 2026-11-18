@@ -9,7 +9,7 @@ import { ItemArt } from './item-art';
 export function ItemThumb({ item, scale = 0.62, index = 0 }: { item: Item; scale?: number; index?: number }) {
   const { t, f } = useI18n();
   const name = useItemName();
-  const label = `${name(item)} · ${t.items.rarity[item.rarity]}${item.edition !== 'base' ? ` · ${t.items.edition[item.edition]}` : ''} · ${t.common.value} ${f.number(item.odds)}`;
+  const label = `${name(item)} · ${t.items.rarity[item.rarity]}${item.edition !== 'base' ? ` · ${t.items.edition[item.edition]}` : ''} · ${t.items.grade[item.grade] ?? item.grade} ${f.number(Math.floor(item.condition * 1000) / 10)}% · ${t.common.value} ${f.number(item.value)}`;
   return (
     <a className={`thumb thumb--r${item.rarity}`} href={portal(`/item/${encodeURIComponent(item.id)}`)} title={label} aria-label={label} style={{ '--i': index } as CSSProperties}>
       <ItemArt item={item} scale={scale} />

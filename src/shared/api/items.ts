@@ -41,8 +41,14 @@ export interface Item {
   stake: number | null;
   serial: number;
   minted: number;
-  /** one in this many cards of its kind's standard table: its value in coins (in the casino too) */
+  /** one in this many cards of its kind's standard table: how rare it is to find */
   odds: number;
+  /** how well kept its card is: 0 (ruined) ... 1 (pristine), and its grade (worn ...) */
+  condition: number;
+  grade: string;
+  /** coins: its value in perfect condition; its value (times its condition): what it is staked at */
+  mint_value: number;
+  value: number;
   owner: string;
   owner_name: string | null;
   source: string;
@@ -74,7 +80,7 @@ export interface GameEntry {
   player: string;
   player_name: string | null;
   items: Item[];
-  /** the items' value (their odds) when they were staked */
+  /** the items' value when they were staked */
   value: number;
   /** percent of the pot */
   chance: number;
