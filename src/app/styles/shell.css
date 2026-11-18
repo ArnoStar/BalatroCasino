@@ -763,3 +763,107 @@
   margin: 0.2rem 0 0;
   color: var(--text-2);
 }
+
+/* ---- notifications: the bell in the top bar, its panel and the pop-ups under it */
+.notes {
+  position: relative;
+}
+
+.notes__bell {
+  position: relative;
+}
+
+.notes__badge {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.2rem;
+  text-align: center;
+}
+
+.notes__panel,
+.notes__pops {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  z-index: 70;
+  display: grid;
+  gap: 0.5rem;
+  width: min(23rem, calc(100vw - 2rem));
+}
+
+.notes__panel {
+  max-height: min(70vh, 34rem);
+  overflow-y: auto;
+  padding: 0.9rem;
+  border-radius: 16px;
+  background: var(--glass-2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 0 0 1px var(--line-gold), 0 24px 60px -24px rgba(0, 0, 0, 0.9);
+}
+
+.notes__panel h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.notes__empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.notes__pop {
+  animation: toast-in 0.45s var(--ease-spring) both;
+}
+
+.note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.4rem 0.65rem;
+  align-items: center;
+  padding: 0.65rem 0.75rem;
+  border-radius: 14px;
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.notes__pops .note {
+  background: var(--glass-2);
+  box-shadow: inset 0 0 0 1px var(--line-gold), 0 24px 60px -24px rgba(0, 0, 0, 0.9);
+}
+
+.note--invite {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mult) 60%, transparent);
+}
+
+.note__text {
+  display: grid;
+  gap: 0.1rem;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.note__preview {
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
