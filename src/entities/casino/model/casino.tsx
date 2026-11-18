@@ -13,6 +13,7 @@ import {
   type Item,
   type ItemsMe,
   type LiveEvent,
+  type Upgrade,
 } from '@/shared/api';
 import { by_newest, in_game } from '../lib/games';
 
@@ -37,6 +38,8 @@ interface State {
   offset: number;
   /** duels just drawn or taken back: their cards show it a few seconds */
   resolved: CasinoGame[];
+  /** the last upgrades, the last first */
+  upgrades: Upgrade[];
 }
 
 type Action =
@@ -45,11 +48,12 @@ type Action =
   | { type: 'status'; status: Status; error?: unknown }
   | { type: 'live'; live: Live }
   | { type: 'event'; event: LiveEvent }
-  | { type: 'forget'; id: string };
+  | { type: 'forget'; id: string }
+  | { type: 'upgrade'; upgrade: Upgrade };
 
 const EMPTY: State = {
   status: 'loading', me: null, items: [], error: null, live: 'connecting', coinflips: [], dice: [], pot: null,
-  last_pot: null, recent: [], rules: null, offset: 0, resolved: [],
+  last_pot: null, recent: [], rules: null, offset: 0, resolved: [], upgrades: [],
 };
 
 const RECENT = 40;
@@ -88,6 +92,8 @@ function reduce(s: State, a: Action): State {
       return { ...s, live: a.live };
     case 'forget':
       return { ...s, resolved: s.resolved.filter((g) => g.id !== a.id) };
+    case 'upgrade':
+      return { ...s, upgrades: [a.upgrade, ...s.upgrades.filter((u) => u.id !== a.upgrade.id)].slice(0, RECENT) };
     case 'event': {
       const e = a.event;
       if (e.type === 'hello') {
@@ -95,8 +101,10 @@ function reduce(s: State, a: Action): State {
         return {
           ...s, live: 'live', coinflips: [...d.coinflips].sort(by_newest), dice: [...d.dice].sort(by_newest), pot: d.jackpot.round,
           last_pot: d.jackpot.last, recent: d.recent, rules: d.rules, offset: Date.parse(d.jackpot.now) - Date.now(),
+          upgrades: d.upgrades ?? s.upgrades,
         };
       }
+      if (e.type === 'upgrade') return { ...s, upgrades: [e.data, ...s.upgrades.filter((u) => u.id !== e.data.id)].slice(0, RECENT) };
       return e.type === 'game' ? on_game(s, e.data) : s;
     }
   }
@@ -119,6 +127,8 @@ export interface CasinoValue extends State {
   reload_items: () => void;
   /** a game the player just played (the service's answer): shown at once, before the stream says so */
   apply: (game: CasinoGame) => void;
+  /** an upgrade the player just made (the service's answer): in the list at once */
+  apply_upgrade: (upgrade: Upgrade) => void;
   /** every change of a game; returns the unsubscription */
   subscribe: (handler: (news: CasinoNews) => void) => () => void;
   /** the service's time now (ms) */
@@ -242,6 +252,7 @@ export function CasinoProvider({ children }: { children: ReactNode }) {
       reload: () => void load_me(),
       reload_items: () => void load_items(),
       apply: emit,
+      apply_upgrade: (upgrade: Upgrade) => dispatch({ type: 'upgrade', upgrade }),
       subscribe,
       server_now: () => Date.now() + current.current.offset,
     };

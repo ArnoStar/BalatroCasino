@@ -1,0 +1,289 @@
+/* The upgrade: an item, the dial (its chance as an arc, the needle spinning to the roll), the aim. */
+
+.upgrade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(17rem, 21rem) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .upgrade {
+    grid-template-columns: 1fr;
+  }
+}
+
+.upgrade__chosen {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 14px;
+  background: var(--grad-gold-soft);
+  box-shadow: inset 0 0 0 1px var(--line-gold);
+}
+
+.upgrade__chosen > div {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: start;
+}
+
+.upgrade__dial-col {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+/* the dial: the chance, from the top clockwise, in green; the needle lands on the roll */
+.dial {
+  --chance: 50%;
+  --needle: 0deg;
+  --spin: 3600ms;
+  position: relative;
+  width: min(19rem, 80vw);
+  aspect-ratio: 1;
+}
+
+.dial__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--ink-1) 0 58%, transparent 59%),
+    conic-gradient(from 0deg, var(--green) 0 var(--chance), rgba(255, 92, 122, 0.55) var(--chance) 100%);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.04), 0 0 60px -12px rgba(47, 224, 160, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.6);
+  transition: background 0.4s;
+}
+
+.dial__needle {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--needle));
+  transition: transform var(--spin) cubic-bezier(0.12, 0.72, 0.1, 1);
+}
+
+.dial__needle::before {
+  content: '';
+  position: absolute;
+  top: -0.35rem;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 0.6rem solid transparent;
+  border-right: 0.6rem solid transparent;
+  border-top: 1.4rem solid var(--gold);
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 8px rgba(255, 197, 61, 0.9));
+}
+
+.dial__center {
+  position: absolute;
+  inset: 22%;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+.dial__chance {
+  font-family: var(--font-display, inherit);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--green);
+  text-shadow: 0 0 18px rgba(47, 224, 160, 0.6);
+}
+
+.dial__label {
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.dial--won .dial__ring {
+  box-shadow: 0 0 0 6px rgba(47, 224, 160, 0.25), 0 0 90px -6px rgba(47, 224, 160, 0.9);
+  animation: dial-pop 0.5s var(--ease-spring, ease-out);
+}
+
+.dial--lost .dial__ring {
+  box-shadow: 0 0 0 6px rgba(255, 92, 122, 0.25), 0 0 90px -6px rgba(255, 92, 122, 0.9);
+}
+
+.dial--lost .dial__center .item-art {
+  animation: burn 1s ease-in forwards;
+}
+
+.dial__gone {
+  width: 3rem;
+  height: 3rem;
+  color: var(--red);
+  filter: drop-shadow(0 0 12px rgba(255, 92, 122, 0.8));
+}
+
+@keyframes dial-pop {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes burn {
+  to {
+    opacity: 0;
+    filter: brightness(2) sepia(1) hue-rotate(-30deg) blur(3px);
+    transform: translateY(-12px) scale(0.85);
+  }
+}
+
+.upgrade__outcome {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  min-height: 3.4rem;
+  text-align: center;
+}
+
+.upgrade__outcome strong {
+  font-size: 1.25rem;
+}
+
+.upgrade__multiplier {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.upgrade__multiplier > strong {
+  font-family: var(--font-display, inherit);
+  font-size: 2.2rem;
+  color: var(--gold-2);
+  text-shadow: 0 0 22px rgba(255, 197, 61, 0.45);
+}
+
+.upgrade__multiplier input[type='range'] {
+  width: 100%;
+  accent-color: var(--gold);
+}
+
+.upgrade__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.3rem 0.65rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  cursor: pointer;
+}
+
+.chip:hover {
+  color: var(--text);
+}
+
+.chip--on {
+  color: #1d1305;
+  background: var(--grad-gold);
+}
+
+.upgrade__numbers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.upgrade__numbers dt,
+.upgrade__fair dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.upgrade__numbers dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.upgrade__prizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upgrade__prizes li {
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+}
+
+.upgrade__prizes small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.upgrade__fair {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.upgrade__fair dd {
+  margin: 0.2rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.upgrade__fair .input {
+  max-width: 22rem;
+}
+
+.upgrade-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upgrade-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.upgrade-list .is-won {
+  box-shadow: inset 3px 0 0 var(--green);
+}
+
+.upgrade-list .is-lost {
+  box-shadow: inset 3px 0 0 var(--red);
+}
+
+.upgrade-list__who {
+  min-width: 6rem;
+  font-weight: 700;
+}
+
+.upgrade-list .value {
+  margin-left: auto;
+}

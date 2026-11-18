@@ -9,6 +9,7 @@ import { LeaderboardPage } from '@/pages/leaderboard';
 import { LobbyPage } from '@/pages/lobby';
 import { NotFoundPage } from '@/pages/not-found';
 import { PlayerPage } from '@/pages/player';
+import { UpgradePage } from '@/pages/upgrade';
 import { Gate, Shell } from '@/widgets/shell';
 import { ResultHost } from './result-host';
 
@@ -53,6 +54,7 @@ export const router = createBrowserRouter(
             { path: 'coinflip', element: <CoinflipPage /> },
             { path: 'dice', element: <DicePage /> },
             { path: 'jackpot', element: <JackpotPage /> },
+            { path: 'upgrade', element: <UpgradePage /> },
             { path: 'leaderboard', element: <LeaderboardPage /> },
             { path: 'history', element: <HistoryPage /> },
             { path: 'players/:id', element: <PlayerPage /> },

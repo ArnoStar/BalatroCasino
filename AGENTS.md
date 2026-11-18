@@ -22,6 +22,9 @@ front end, served at `/casino/` on the site's one origin, next to the portal
 2. **Player against player.** No house, no cut, nothing made or kept by the
    casino (the item service's rule 7). Don't add a game the service can't
    play by that rule (no cases, no crash, no roulette against the house).
+   The one exception is the owner's (2026-11-19): **the upgrade**
+   (`pages/upgrade`), against the house at 95% over the multiplier, provably
+   fair the same way. Don't add another without the owner asking.
 3. **Provably fair, shown.** Every game's page checks its own draw in the
    browser; `/fair` checks any draw from its numbers alone. The player's seed
    is theirs to choose. Never show a server seed the service hasn't shown.
