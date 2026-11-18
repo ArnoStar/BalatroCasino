@@ -5,8 +5,9 @@ describes the casino; this file says how to work on it.
 
 ## What this project is
 
-The casino of Balatro in the browser: players stake the collectible items
-they found by playing (BalatroItemService) against each other's, in
+The casino of Balatro in the browser: players stake their collectible items
+(BalatroItemService: the game's cards, from the boosters their coins buy)
+against each other's, in
 coinflips, dice games and the jackpot, live and provably fair. It is its own
 front end, served at `/casino/` on the site's one origin, next to the portal
 (`/`) and the game (`/play/`).

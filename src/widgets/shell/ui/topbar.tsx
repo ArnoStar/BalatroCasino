@@ -122,6 +122,13 @@ function Account() {
           {f.compact(casino.ready_value)}
         </span>
       </a>
+      <a className="ready ready--coins" href={portal('/shop')} title={t.shell.coins_hint}>
+        <span className="ready__label">{t.shell.coins}</span>
+        <span className="ready__value">
+          <span className="value__chip" aria-hidden />
+          {f.compact(casino.me.coins ?? 0)}
+        </span>
+      </a>
       <a className="me" href={portal('/account')} title={t.shell.account}>
         <Avatar name={casino.me.name} player={casino.me.id} size="sm" />
         <span className="visually-hidden">{t.shell.account}</span>

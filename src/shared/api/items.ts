@@ -1,5 +1,6 @@
-// The item service (BalatroItemService): the player's items and the casino
-// (coinflips, dice, the jackpot), its numbers and its live stream.
+// The item service (BalatroItemService): the player's items (the game's cards
+// with their upgrades), their coins, and the casino (coinflips, dice, the
+// jackpot), its numbers and its live stream.
 import { ITEMS_BASE } from '@/shared/config';
 import { read_json } from './problem';
 import { authorized_fetch } from './session';
@@ -10,21 +11,37 @@ export type GameStatus = 'open' | 'done' | 'cancelled';
 export type Side = 'chips' | 'mult';
 export type Period = 'day' | 'week' | 'all';
 
-export interface ItemSprite { atlas: string; pos: { x: number; y: number }; soul_pos?: { x: number; y: number } | null }
+export type ItemKind = 'joker' | 'tarot' | 'planet' | 'spectral' | 'card';
+
+export interface SpriteCell { atlas: string; pos: { x: number; y: number } }
+
+export interface ItemSprite extends SpriteCell {
+  soul_pos?: { x: number; y: number } | null;
+  /** drawn over the card (The Soul's gem) */
+  overlay?: SpriteCell | null;
+  /** a playing card's rank and suit (none for a Stone Card) */
+  front?: SpriteCell | null;
+  /** a playing card's seal */
+  seal?: SpriteCell | null;
+}
 
 export interface Item {
   id: string;
-  kind: 'joker' | 'tag';
+  kind: ItemKind;
+  /** the game's key: a center's (j_joker, c_fool ...), or a playing card's (S_A ...) */
   key: string;
   name: string;
   edition: Edition;
+  /** a playing card's enhancement (m_glass ...) and seal (Gold, Red, Blue, Purple) */
+  enhancement: string | null;
+  seal: string | null;
   /** 1 Common, 2 Uncommon, 3 Rare, 4 Legendary */
   rarity: 1 | 2 | 3 | 4;
   /** the stake of the win it came from (1 White ... 8 Gold) */
   stake: number | null;
   serial: number;
   minted: number;
-  /** one in this many drops: its value in the casino */
+  /** one in this many cards of its kind's standard table: its value in coins (in the casino too) */
   odds: number;
   owner: string;
   owner_name: string | null;
@@ -32,7 +49,7 @@ export interface Item {
   found_at: string;
   acquired_at: string;
   tradable_at: string;
-  /** out of its trade hold and not staked: it can be staked */
+  /** out of its trade hold, not staked, not for sale: it can be staked */
   tradable: boolean;
   /** the casino game it is staked in */
   staked: string | null;
@@ -46,6 +63,8 @@ export interface ItemsMe {
   can_trade: boolean;
   admin: boolean;
   items: number;
+  /** coins: what the player's runs earned, for boosters and the market (on the portal) */
+  coins: number;
   showcase: Item | null;
 }
 

@@ -1,14 +1,15 @@
 // The player's items that can be staked, to pick from: sorted by value (or
-// newest, or rarest), only jokers or tags, found by name. Each shows its value;
+// newest, or rarest), of one kind of card, found by name. Each shows its value;
 // the picked ones are lit, in the order they were picked.
 import { useMemo, useState, type CSSProperties } from 'react';
 import { ItemArt, useItemName } from '@/entities/item';
-import type { Item } from '@/shared/api';
+import type { Item, ItemKind } from '@/shared/api';
 import { useI18n } from '@/shared/i18n';
 import { Icon, Segmented, Value } from '@/shared/ui';
 
 type Sort = 'value' | 'newest' | 'rarity';
-type Kind = 'all' | 'joker' | 'tag';
+type Kind = 'all' | ItemKind;
+const KINDS: ItemKind[] = ['joker', 'tarot', 'planet', 'spectral', 'card'];
 
 export function ItemPicker({ items, held, next_free = null, picked, onChange, max }: {
   /** the items that can be staked */
@@ -69,11 +70,7 @@ export function ItemPicker({ items, held, next_free = null, picked, onChange, ma
           label={t.stake.your_items}
           value={kind}
           onChange={setKind}
-          options={[
-            ['all', t.stake.all],
-            ['joker', t.stake.jokers],
-            ['tag', t.stake.tags],
-          ]}
+          options={[['all', t.stake.all] as const, ...KINDS.filter((k) => items.some((i) => i.kind === k)).map((k) => [k, t.items.kinds[k]] as const)]}
         />
         <label className="picker__sort">
           <span className="visually-hidden">{t.filters.sort}</span>
