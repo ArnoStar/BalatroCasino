@@ -225,6 +225,7 @@ export const en = {
         one: 'One of your items can’t be staked now: it is in its trade hold (a week after it changes hands), or staked.',
         other: '# of your items can’t be staked now: in their trade hold (a week after they change hands), or staked.',
       }),
+    next_free: (when: string, at: string) => `The first one is free ${when} (${at}).`,
     challenge: 'Challenge a player',
     challenge_hint: 'Only they may join. Leave it to anyone otherwise.',
     anyone: 'Anyone',
