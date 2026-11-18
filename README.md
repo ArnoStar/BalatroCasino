@@ -6,6 +6,13 @@ The casino of Balatro in the browser: players stake their collectible cards
 its value in coins (the same coins their runs earn, shown in the top bar). **Player against player**: the casino has no items of its own, takes
 nothing, and every draw can be checked in the browser.
 
+- **Upgrade** (`/upgrade`, the one game against the house): put one item in
+  and aim at an item worth so many times more (x1 to x100): the chance is 95%
+  over the multiplier. A win swaps your item for a new card worth the target
+  (5% more or less); a loss leaves you nothing. The dial shows the chance and
+  spins to the roll; the next server seed's hash is shown before you play, and
+  the roll is checked in your browser after.
+
 - **Coinflip**: Chips or Mult. Stake items on a side; another player matches
   them with items worth about as much, and the coin is flipped at once.
 - **Dice**: the same duel at the chance you choose, from 5% to 95%. A long

@@ -59,6 +59,8 @@ export interface Item {
   tradable: boolean;
   /** the casino game it is staked in */
   staked: string | null;
+  /** put in an upgrade: gone */
+  destroyed_at?: string | null;
   sprite: ItemSprite | null;
 }
 
@@ -140,6 +142,68 @@ export interface CasinoRules {
   trade_hold_days: number;
   dice_min_chance: number;
   dice_max_chance: number;
+  /** percent: an upgrade's chance is this over its multiplier */
+  upgrade_edge: number;
+  /** percent: an upgrade's prize is worth its target this much more or less */
+  upgrade_margin: number;
+  upgrade_min_multiplier: number;
+  upgrade_max_multiplier: number;
+}
+
+/** a card an upgrade may give */
+export interface Prize {
+  kind: ItemKind;
+  key: string;
+  name: string;
+  rarity: 1 | 2 | 3 | 4;
+  edition: Edition;
+  enhancement: string | null;
+  seal: string | null;
+  mint_value: number;
+  condition_low: number;
+  condition_high: number;
+  /** percent: how likely it is among the prizes */
+  share: number;
+  sprite: ItemSprite | null;
+}
+
+export interface UpgradePreview {
+  value: number;
+  multiplier: number;
+  target: number;
+  low: number;
+  high: number;
+  /** percent */
+  chance: number;
+  possible: boolean;
+  prizes: number;
+  examples: Prize[];
+}
+
+/** an upgrade: an item put in against the house (gone), and the new item if it won */
+export interface Upgrade {
+  id: string;
+  player: string;
+  player_name: string | null;
+  item: Item | null;
+  item_value: number;
+  multiplier: number;
+  /** percent */
+  chance: number;
+  /** parts per million: a roll below wins */
+  chance_ppm: number;
+  target: number;
+  low: number;
+  high: number;
+  seed_hash: string;
+  server_seed: string;
+  seed: string;
+  /** parts per million */
+  roll: number;
+  won: boolean;
+  prize: Item | null;
+  prize_value: number | null;
+  created_at: string;
 }
 
 /** a game someone won, in a line */
@@ -191,6 +255,7 @@ export interface Snapshot {
   jackpot: JackpotState;
   recent: CasinoGame[];
   rules: CasinoRules;
+  upgrades?: Upgrade[];
 }
 
 export interface Bet { items: string[]; seed?: string }
@@ -229,4 +294,10 @@ export const items_api = {
   game: (game: string) => get<CasinoGame>(`/v1/casino/games/${id(game)}`),
   stats: (player: string) => get<CasinoStats>(`/v1/casino/players/${id(player)}/stats`),
   leaderboard: (period: Period) => get<Leaderboard>(`/v1/casino/leaderboard?period=${period}`),
+  /** the SHA-256 of the server seed of the player's next upgrade (shown before they play) */
+  upgrade_seed: () => get<{ seed_hash: string }>('/v1/casino/upgrades/seed'),
+  upgrade_preview: (item: string, multiplier: number) =>
+    get<UpgradePreview>(`/v1/casino/upgrades/preview?item=${id(item)}&multiplier=${multiplier}`),
+  upgrade: (item: string, multiplier: number, seed: string) => send<Upgrade>('POST', '/v1/casino/upgrades', { item, multiplier, seed }),
+  upgrades: (of?: string) => get<Upgrade[]>(`/v1/casino/upgrades${of ? `?of=${id(of)}` : ''}`),
 };

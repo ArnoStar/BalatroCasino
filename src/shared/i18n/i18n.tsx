@@ -50,6 +50,8 @@ export interface Formats {
   compact(x: number): string;
   /** a percent given as 0..100: 23%, 4.5%, 0.25% */
   percent(x: number): string;
+  /** 47.5%, 0.95%: up to two decimals (an upgrade's chance) */
+  percent2(x: number): string;
   /** a multiplier: 4.25 */
   times(x: number): string;
   /** 5 minutes ago */
@@ -78,6 +80,7 @@ function formats(locale: string): Formats {
     compact: (x) => (Math.abs(x) < 10_000 ? number.format(x) : compact.format(x)),
     percent: (x) =>
       new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: x >= 10 || x === 0 ? 0 : x >= 1 ? 1 : 2 }).format(x / 100),
+    percent2: (x) => new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 2 }).format(x / 100),
     times: (x) => times.format(x),
     ago(iso, now = Date.now()) {
       const s = (Date.parse(iso) - now) / 1000;

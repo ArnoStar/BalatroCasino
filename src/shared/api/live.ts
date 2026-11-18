@@ -1,15 +1,16 @@
 // The casino, live: the item service's stream of server-sent events, read with
 // fetch (an EventSource can't send the access token). `hello` first (everything
-// the casino shows), then `game` at each change; it ends with `expired` (the
+// the casino shows), then `game` at each change and `upgrade` at each upgrade; it ends with `expired` (the
 // token) or `reset` (the client fell behind): open another.
 import { ITEMS_BASE } from '@/shared/config';
-import type { CasinoGame, Snapshot } from './items';
+import type { CasinoGame, Snapshot, Upgrade } from './items';
 import { ProblemError, read_json } from './problem';
 import { authorized_fetch } from './session';
 
 export type LiveEvent =
   | { type: 'hello'; data: Snapshot }
   | { type: 'game'; data: CasinoGame }
+  | { type: 'upgrade'; data: Upgrade }
   | { type: 'expired' | 'reset'; data: Record<string, never> };
 
 /** reads the stream until it ends or `signal` aborts; throws a ProblemError if it is refused */

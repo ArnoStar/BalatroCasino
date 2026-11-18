@@ -6,7 +6,7 @@ import { sound, useMuted } from '@/shared/lib';
 import { Avatar, Icon, type IconName } from '@/shared/ui';
 import { Notifications } from './notifications';
 
-type NavKey = 'lobby' | 'coinflip' | 'dice' | 'jackpot' | 'leaderboard' | 'history' | 'fair';
+type NavKey = 'lobby' | 'coinflip' | 'dice' | 'jackpot' | 'upgrade' | 'leaderboard' | 'history' | 'fair';
 /** shown as icons only on narrower screens */
 const MINOR: NavKey[] = ['leaderboard', 'history', 'fair'];
 const NAV: [NavKey, string, IconName][] = [
@@ -14,6 +14,7 @@ const NAV: [NavKey, string, IconName][] = [
   ['coinflip', '/coinflip', 'sparkle'],
   ['dice', '/dice', 'dice'],
   ['jackpot', '/jackpot', 'coins'],
+  ['upgrade', '/upgrade', 'zap'],
   ['leaderboard', '/leaderboard', 'trophy'],
   ['history', '/history', 'history'],
   ['fair', '/fair', 'shield'],
