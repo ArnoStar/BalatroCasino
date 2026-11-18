@@ -38,6 +38,8 @@ export function StakeDialog({ mode, onClose, onDone }: { mode: StakeMode; onClos
   const by_id = new Map(casino.stakable.map((i) => [i.id, i]));
   const value = picked.reduce((sum, id) => sum + (by_id.get(id)?.odds ?? 0), 0);
   const held = casino.items.length - casino.stakable.length;
+  // when the first item in its trade hold is free (staked ones come back with their game)
+  const next_free = casino.items.filter((i) => !i.tradable && !i.staked).map((i) => i.tradable_at).sort()[0] ?? null;
 
   // what the other side must be worth, or what this side must be
   const game = mode.kind === 'join' ? mode.game : null;
@@ -246,7 +248,7 @@ export function StakeDialog({ mode, onClose, onDone }: { mode: StakeMode; onClos
             </span>
           </div>
           {no_fit ? <Alert tone="info">{t.stake.fill_none}</Alert> : null}
-          <ItemPicker items={casino.stakable} held={held} picked={picked} onChange={(p) => { setPicked(p); setNoFit(false); sound.play('tick'); }} max={max} />
+          <ItemPicker items={casino.stakable} held={held} next_free={next_free} picked={picked} onChange={(p) => { setPicked(p); setNoFit(false); sound.play('tick'); }} max={max} />
         </div>
       </form>
     </Modal>

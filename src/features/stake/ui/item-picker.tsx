@@ -10,17 +10,25 @@ import { Icon, Segmented, Value } from '@/shared/ui';
 type Sort = 'value' | 'newest' | 'rarity';
 type Kind = 'all' | 'joker' | 'tag';
 
-export function ItemPicker({ items, held, picked, onChange, max }: {
+export function ItemPicker({ items, held, next_free = null, picked, onChange, max }: {
   /** the items that can be staked */
   items: Item[];
   /** how many of the player's items can't be staked now */
   held: number;
+  /** when the first of them is out of its trade hold */
+  next_free?: string | null;
   picked: string[];
   onChange: (picked: string[]) => void;
   max: number;
 }) {
-  const { t } = useI18n();
+  const { t, f } = useI18n();
   const name = useItemName();
+  const held_note = held ? (
+    <>
+      {t.stake.held(held)}
+      {next_free ? <> {t.stake.next_free(f.ago(next_free), f.datetime(next_free))}</> : null}
+    </>
+  ) : null;
   const [sort, setSort] = useState<Sort>('value');
   const [kind, setKind] = useState<Kind>('all');
   const [q, setQ] = useState('');
@@ -45,7 +53,7 @@ export function ItemPicker({ items, held, picked, onChange, max }: {
         <p className="picker__none">
           <Icon name="cards" /> {t.stake.none}
         </p>
-        {held ? <p className="muted">{t.stake.held(held)}</p> : null}
+        {held_note ? <p className="muted">{held_note}</p> : null}
       </div>
     );
   }
@@ -101,7 +109,7 @@ export function ItemPicker({ items, held, picked, onChange, max }: {
           );
         })}
       </ul>
-      {held ? <p className="muted picker__held">{t.stake.held(held)}</p> : null}
+      {held_note ? <p className="muted picker__held">{held_note}</p> : null}
     </div>
   );
 }
