@@ -229,8 +229,8 @@ export const en = {
     none: 'You have no item to stake right now.',
     held: (n: number) =>
       p(n, {
-        one: 'One of your items can’t be staked now: it is in its trade hold (a week after it changes hands), or staked.',
-        other: '# of your items can’t be staked now: in their trade hold (a week after they change hands), or staked.',
+        one: 'One of your items can’t be staked now: it is in its trade hold (a week after it is traded, bought or found), or staked.',
+        other: '# of your items can’t be staked now: in their trade hold (a week after they are traded, bought or found), or staked.',
       }),
     next_free: (when: string, at: string) => `The first one is free ${when} (${at}).`,
     challenge: 'Challenge a player',
@@ -251,8 +251,7 @@ export const en = {
     too_low: 'Not enough',
     too_high: 'Too much',
     chance_then: (chance: string) => `Your chance then: ${chance}`,
-    hold: (days: number, shown: string) =>
-      `What you win can’t be staked again for ${p(days, { one: '# day', other: '# days' }, shown)} (the trade hold).`,
+    hold: 'What you win is yours at once, with no trade hold: you may stake it again right away.',
     value: 'Value',
   },
   result: {
@@ -306,7 +305,7 @@ export const en = {
     rolling: 'Rolling…',
     won: 'Upgraded!',
     lost: 'Gone.',
-    won_text: (value: string) => `A new card worth ${value} is yours (in its trade hold for a week).`,
+    won_text: (value: string) => `A new card worth ${value} is yours, free to trade or stake at once.`,
     lost_text: 'The roll fell outside your chance: your item is gone.',
     again: 'Again',
     see: 'See it',
