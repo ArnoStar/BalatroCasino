@@ -223,7 +223,7 @@ export function StakeDialog({ mode, onClose, onDone }: { mode: StakeMode; onClos
               {t.stake.change_seed}
             </Link>
           </p>
-          {rules ? <p className="muted small">{t.stake.hold(rules.trade_hold_days, f.days(rules.trade_hold_days))}</p> : null}
+          <p className="muted small">{t.stake.hold}</p>
           {error ? <Alert>{describe(error)}</Alert> : null}
           <Button type="submit" size="lg" wide tone={mode.kind === 'join' ? 'green' : 'gold'} busy={busy} disabled={!fits || !casino.rules?.open} icon={<Icon name={mode.kind === 'pot' ? 'coins' : mode.kind === 'join' ? 'zap' : 'sparkle'} />}>
             {submit_label}
